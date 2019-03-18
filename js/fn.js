@@ -190,6 +190,8 @@ function parsejson(data, sd, ed)
 
       count++;
     }
+    $("#numresult").text("Your search produced " + 
+                    count + " results: ");
   }
 }
 //parseimage deals with when a specific result is an image file
@@ -225,7 +227,8 @@ function parseDet(obj, html, count)
     for(j = 0; j < obj.data[0].keywords.length; j++)
     {
       var tag = obj.data[0].keywords[j];
-      string += "<button class=\"tag\" onclick=\"search(\'" + tag + "\'); textboxtag(\'" + tag + "\'); \">" + tag + " </button>";
+      string += "<button class=\"tag\" onclick=\"search(\'" + 
+                tag + "\'); textboxtag(\'" + tag + "\'); \">" + tag + " </button>";
       //string += "<button class=\"tag\" onclick=\"search(\'" + tag + "\'); \">" + tag + " </button>";
     }
   }
