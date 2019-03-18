@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta charset="utf-8">
+  <title>NASA Image Archive Search Engine</title>
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- CSS –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/skeleton.css">
+  <link rel="stylesheet" href="tingle-master/doc/tingle/tingle.min.css">
+
+  <!-- Icon –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="icon" type="image/png" href="images/nasa.png">
+
+  <!-- JS --- -->
+  <script src="tingle-master/doc/tingle/tingle.min.js"></script>
+  <script src="js/jquery.js"></script>
+  <script src="js/fn.js"></script>
+  
+
+</head>
+<body>
+  <div class="container">
+    <!-- Title -->
+    <div class="row">
+      <div class="eleven columns" style="margin-top: 15%">
+        <h1><img src="./images/nasalogo1.jpg" style="max-height: 80px;" />  Archive Search Engine</h1>
+        <h5>The universe is one search away.</h5>
+      </div>
+    </div>
+    <div class ="row">
+      <div class="eleven columns">
+        <!-- Search Box, when "Enter" button is pressed call search() in fn.js -->
+        <label>Explore: </label><input type="text" id="query" placeholder="Ex. Saturn" required>
+        <button id="filter">Add Filters</button> <br />
+
+        <script>
+          // instanciate new modal
+          
+          var modal = new tingle.modal({
+            footer: true,
+            stickyFooter: false,
+            closeMethods: ['overlay', 'button', 'escape'],
+            closeLabel: "Close",
+            cssClass: ['custom-class-1', 'custom-class-2'],
+            onOpen: function() {
+                console.log('modal open');
+            },
+            onClose: function() {
+                console.log('modal closed');
+            },
+            beforeClose: function() {
+                // here's goes some logic
+                // e.g. save content before closing the modal
+                return true; // close the modal
+                return false; // nothing happens
+            }
+          });
+
+          // filters
+          modal.setContent('<h4>Add Filters </h4>' +
+             '<label for="startdate"> Start Year (YYYY-MM-DD): </label>' +
+             '<input type = "text" size = "25" placeholder="Ex. 1991" id = "add_startdate"></input><br>'+
+             '<label for="enddate"> End Year: (YYYY-MM-DD)</label>' +
+             '<input type = "text" size = "25" placeholder="Ex. 2000" id = "add_enddate"></input><br>'+
+             '<label for="location"> Location </label>' +
+             '<input type = "text" size = "25" placeholder="Ex. Texas" id = "add_location"></input><br>'+
+             '<label for="photographer"> Photographer </label>' +
+             '<input type = "text" size = "25" placeholder="Ex. Doug Stoffer" id = "add_photographer"></input><br>'+
+             '<label for="nasaID"> NasaID </label>' +
+             '<input type = "text" size = "25" placeholder="Ex. ED08-0257-01" id = "add_nasaid"></input><br>'+
+             '<button onclick="clearfilters();">Clear Filters</button> ' +
+             '<button onclick="modal.close();">Add</button>');
+          // open modal
+          document.getElementById('filter').onclick = function() {
+            modal.open();
+          }
+          
+          </script>
+        <script>
+          $('#query').keypress(function(event){
+            var keycode = (event.keyCode ? event.keyCode : event.which);
+            //enter key is 13 keycode
+            if(keycode == '13'){
+              
+              query = document.getElementById('query').value;
+              
+              startdate = document.getElementById('add_startdate').value;
+              enddate = document.getElementById('add_enddate').value;
+              loc = document.getElementById('add_location').value;
+              photographer = document.getElementById('add_photographer').value;
+              nasaid = document.getElementById('add_nasaid').value;
+              search(query, startdate, enddate, loc, photographer, nasaid);
+              
+            }
+          });
+        </script>
+
+
+        <!-- Search Button, when clicked call search() in fn.js -->
+        <button id = "search_btn"">Search</button>
+        <script>
+          $("#search_btn").click(function(){
+            query = document.getElementById('query').value;
+              
+            startdate = document.getElementById('add_startdate').value;
+            enddate = document.getElementById('add_enddate').value;
+            loc = document.getElementById('add_location').value;
+            photographer = document.getElementById('add_photographer').value;
+            nasaid = document.getElementById('add_nasaid').value;
+            search(query, startdate, enddate, loc, photographer, nasaid);
+            
+          });
+        </script>
+      </div>
+    </div>
+
+    <!-- display number of results -->
+    <div class ="row">
+      <div class="eleven columns">
+        <p id="numresult"></p>
+        <div class="more"></div>
+      </div>
+    </div>
+
+    <!-- this is where results are shown -->
+    <div class ="row" id="data">
+      <div class="six columns" id="row1">
+      </div>
+      <div class="six columns" id="row2">
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
