@@ -49,7 +49,7 @@ function search(query, sd, ed, loc, phot, id)
     getrequest += "&nasa_id=" + id;
   }
   
-
+  //alert(getrequest);
   //search GET request (ajax)
   $.get(getrequest, function( data ) {
     $( "#result" ).html( data );
@@ -57,24 +57,7 @@ function search(query, sd, ed, loc, phot, id)
   });
 }
 
-//search  function with no filters
-function search(query)
-{
 
-  emptydiv();
-  //use ajax
-  var getrequest = "https://images-api.nasa.gov/search?media_type=image";
-
-  if(query.localeCompare("") != 0)
-  {
-    getrequest += "&q=" + query;
-  }
-  
-  $.get(getrequest, function( data ) {
-    $( "#result" ).html( data );
-    parsejson(data, "", "");
-  });
-}
 
 //emptydiv clears all the previous data upon a new search
 function emptydiv()
@@ -228,7 +211,7 @@ function parseDet(obj, html, count)
     {
       var tag = obj.data[0].keywords[j];
       string += "<button class=\"tag\" onclick=\"search(\'" + 
-                tag + "\'); textboxtag(\'" + tag + "\'); \">" + tag + " </button>";
+                tag + "\', \'\', \'\', \'\', \'\', \'\'); textboxtag(\'" + tag + "\'); \">" + tag + " </button>";
       //string += "<button class=\"tag\" onclick=\"search(\'" + tag + "\'); \">" + tag + " </button>";
     }
   }
